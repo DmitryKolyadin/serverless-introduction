@@ -1,0 +1,32 @@
+name: Deploy Serverless Service (go)
+
+on:
+#   push:
+#     branches:
+#       - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Deploy Function
+      uses: yc-actions/yc-sls-function@v2.12.0
+      with:
+        yc-sa-json-credentials: ${{ secrets.YC_SA_JSON_CREDENTIALS }} # Секрет с JSON-ключом сервисного аккаунта Яндекс.Облака
+        folder-id: ${{ secrets.YC_FOLDER_ID }} # Секрет с ID папки в Яндекс.Облаке
+        function-name: 'example-function'
+        runtime: 'golang123'
+        memory: '128Mb'
+        entrypoint: 'main.Handler'
+        # environment: |
+        #   ENV_TYPE=prod
+        include: |
+          ./
+        # source-root: 'simple-backend-go-ydb' # Путь к корневой папке с кодом функции
+    
+        # Дополнительные параметры можно найти в документации:
+        # https://github.com/yc-actions/yc-sls-function/blob/v2.12.0/action.yml
