@@ -23,8 +23,13 @@ type Storage struct {
 }
 
 func NewStorage(cfg Config) (*Storage, error) {
+	credOption := yc.WithMetadataCredentials()
+	if cfg.ServiceAccountKey != "" {
+		credOption = yc.WithServiceAccountKeyFileCredentials(cfg.ServiceAccountKey)
+	}
+
 	db, err := gorm.Open(
-		ydb.Open(cfg.DSN, ydb.With(yc.WithInternalCA(), yc.WithServiceAccountKeyFileCredentials(cfg.PathToKey))),
+		ydb.Open(cfg.DSN, ydb.With(yc.WithInternalCA(), credOption)),
 		&gorm.Config{},
 	)
 	if err != nil {

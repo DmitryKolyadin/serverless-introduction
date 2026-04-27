@@ -5,6 +5,7 @@ go 1.23.0
 require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/ydb-platform/gorm-driver v0.2.0
+	github.com/ydb-platform/ydb-go-sdk-auth-environ v0.5.1
 	github.com/ydb-platform/ydb-go-yc v0.12.3
 	gorm.io/gorm v1.31.0
 )
